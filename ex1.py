@@ -80,31 +80,6 @@ def sum_rec(lst):
     return sum_it(lst[1:]) + lst[0]
 
 
-# 11
-def count_words_len(lst):
-    counts = []
-    for l in lst:
-        if type(l) is str:
-            count = 0
-            for _ in l:
-                count += 1
-            counts.append(count)
-        else:
-            counts.append(0)
-    return counts
-
-
-# 12
-def flat(dlst):
-    result = []
-    for lst in dlst:
-        if type(lst) is list:
-            result = result + flat(lst)
-        else:
-            result.append(lst)
-    return result
-
-
 if __name__ == '__main__':
     print(f'is 10 even {is_even(10)}')
     print(f'is 11 even {is_even(11)}')
@@ -125,8 +100,3 @@ if __name__ == '__main__':
 
     print(f'sum it: {sum_it([1, 2, 3, 4, 5, 6, 7])}')
     print(f'sum rec: {sum_rec([1, 2, 3, 4, 5, 6, 7])}')
-
-    print(f'count words {count_words_len(["welcome", "to", "the", "jungle"])}')
-
-    print(f'flat int: {flat([[3, 8], [8, 9, 9], [1, 2]])}')
-    print(f'flat str: {flat([["ab", "c"], ["d", "ef"]])}')
