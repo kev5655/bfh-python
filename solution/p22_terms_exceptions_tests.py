@@ -3,7 +3,7 @@ Collection of unit tests for term_exceptions.py
 """
 
 import unittest
-from terms_exceptions import *
+from p21_terms_exceptions import *
 
 
 class TestContext(unittest.TestCase):
@@ -59,7 +59,7 @@ class TestConstant(unittest.TestCase):
         """Checks the evaluation of a constant works fine"""
         value = 4.03
         four = Constant(value)
-        ctx  = Context()
+        ctx = Context()
         self.assertEqual(Constant.eval(four, ctx), value)
 
 

@@ -1,5 +1,5 @@
 # import terms stuff
-from terms_exceptions import *
+from p21_terms_exceptions import *
 
 """
 Parse an expression (string) composed of constants only, binary operator and parenthesis,
@@ -12,6 +12,7 @@ Note that this version does not take into account neither unary operators nor va
 the constant are composed of single digit (0 ... 9) 
 """
 
+
 class ParsingException(Exception):
     """Exception raised if error are discovered during parsing"""
 
@@ -22,15 +23,15 @@ class ParsingException(Exception):
 @unique
 class Token(Enum):
     """Enumeration of the various tokens in an arithmetic expression"""
-    CTE  = 0   # constant 0,1,2,...,9
-    ADD  = 1   # binary operators
-    SUB  = 2
-    MUL  = 3
-    DIV  = 4
+    CTE = 0   # constant 0,1,2,...,9
+    ADD = 1   # binary operators
+    SUB = 2
+    MUL = 3
+    DIV = 4
     PARL = 5   # left parenthesis
     PARR = 6   # right parenthesis
-    ERR  = 7   # something else -> error
-    END  = 8   # all token have been read
+    ERR = 7   # something else -> error
+    END = 8   # all token have been read
 
 
 class ParserBuilder:
@@ -59,7 +60,7 @@ class ParserBuilder:
         self.expr = expr
         self.length = len(self.expr)
         self.idx = 0  # index used by next_token()
-        self.current = self.next_token() # reads first token
+        self.current = self.next_token()  # reads first token
 
     def next_token(self) -> tuple[Token, float]:
         """
@@ -68,25 +69,46 @@ class ParserBuilder:
            [1] the value (float) used only in case of constant
         :return: tuple with the read token and a value if token is a constant
         """
-        if self.idx == self.length: return (Token.END, 0)      # everything has been read, value not used (=0)
-        if   self.expr[self.idx] == '0': res = (Token.CTE, 0)  # constant
-        elif self.expr[self.idx] == '1': res = (Token.CTE, 1)
-        elif self.expr[self.idx] == '2': res = (Token.CTE, 2)
-        elif self.expr[self.idx] == '3': res = (Token.CTE, 3)
-        elif self.expr[self.idx] == '4': res = (Token.CTE, 4)
-        elif self.expr[self.idx] == '5': res = (Token.CTE, 5)
-        elif self.expr[self.idx] == '6': res = (Token.CTE, 6)
-        elif self.expr[self.idx] == '7': res = (Token.CTE, 7)
-        elif self.expr[self.idx] == '8': res = (Token.CTE, 8)
-        elif self.expr[self.idx] == '9': res = (Token.CTE, 9)
-        elif self.expr[self.idx] == '+': res = (Token.ADD, 0)  # operator, value not used
-        elif self.expr[self.idx] == '-': res = (Token.SUB, 0)
-        elif self.expr[self.idx] == '*': res = (Token.MUL, 0)
-        elif self.expr[self.idx] == '/': res = (Token.DIV, 0)
-        elif self.expr[self.idx] == '(': res = (Token.PARL, 0)
-        elif self.expr[self.idx] == ')': res = (Token.PARR, 0)
-        else: return (Token.ERR,0)                              # something else -> error
-        self.idx += 1                                           # increment idx for next time
+        if self.idx == self.length:
+            # everything has been read, value not used (=0)
+            return (Token.END, 0)
+        if self.expr[self.idx] == '0':
+            res = (Token.CTE, 0)  # constant
+        elif self.expr[self.idx] == '1':
+            res = (Token.CTE, 1)
+        elif self.expr[self.idx] == '2':
+            res = (Token.CTE, 2)
+        elif self.expr[self.idx] == '3':
+            res = (Token.CTE, 3)
+        elif self.expr[self.idx] == '4':
+            res = (Token.CTE, 4)
+        elif self.expr[self.idx] == '5':
+            res = (Token.CTE, 5)
+        elif self.expr[self.idx] == '6':
+            res = (Token.CTE, 6)
+        elif self.expr[self.idx] == '7':
+            res = (Token.CTE, 7)
+        elif self.expr[self.idx] == '8':
+            res = (Token.CTE, 8)
+        elif self.expr[self.idx] == '9':
+            res = (Token.CTE, 9)
+        elif self.expr[self.idx] == '+':
+            res = (Token.ADD, 0)  # operator, value not used
+        elif self.expr[self.idx] == '-':
+            res = (Token.SUB, 0)
+        elif self.expr[self.idx] == '*':
+            res = (Token.MUL, 0)
+        elif self.expr[self.idx] == '/':
+            res = (Token.DIV, 0)
+        elif self.expr[self.idx] == '(':
+            res = (Token.PARL, 0)
+        elif self.expr[self.idx] == ')':
+            res = (Token.PARR, 0)
+        else:
+            # something else -> error
+            return (Token.ERR, 0)
+        # increment idx for next time
+        self.idx += 1
         return res
 
     def parse(self) -> None:
@@ -95,7 +117,8 @@ class ParserBuilder:
         This version simply prints the tokens.
         """
         if self.current[0] == Token.CTE:                        # constant ?
-            print(self.current[1])                              # print the value of constant token
+            # print the value of constant token
+            print(self.current[1])
             self.current = self.next_token()                    # reads next token
             return                                              # recursion end
         elif self.current[0] == Token.PARL:                     # ( ?
@@ -107,20 +130,27 @@ class ParserBuilder:
                 self.current = self.next_token()                # reads next token
                 return                                          # recursion end
             else:
-                if   self.current[0] == Token.ADD: print('+')   # operator?
-                elif self.current[0] == Token.SUB: print('-')
-                elif self.current[0] == Token.MUL: print('*')
-                elif self.current[0] == Token.DIV: print('/')
+                if self.current[0] == Token.ADD:
+                    print('+')   # operator?
+                elif self.current[0] == Token.SUB:
+                    print('-')
+                elif self.current[0] == Token.MUL:
+                    print('*')
+                elif self.current[0] == Token.DIV:
+                    print('/')
                 else:
-                    raise ParsingException("Wrong operator or right parenthesis expected")
+                    raise ParsingException(
+                        "Wrong operator or right parenthesis expected")
                 self.current = self.next_token()                # reads next token
                 self.parse()                                    # recursion for ( ... oper expr )
                 if self.current[0] == Token.PARR:               # ) ?
                     print(')')
                     self.current = self.next_token()            # reads next token
                     return                                      # recursion end
-                else: raise ParsingException("Right parenthesis expected")
-        else: raise ParsingException("Left parenthesis or constant expected")
+                else:
+                    raise ParsingException("Right parenthesis expected")
+        else:
+            raise ParsingException("Left parenthesis or constant expected")
 
     def parse_build(self) -> Term:
         """
@@ -128,52 +158,64 @@ class ParserBuilder:
         the various elements of an expression to be able to evaluate it.
         """
         if self.current[0] == Token.CTE:                        # constant ?
-            constant = Constant(int(self.current[1]))           # creates the constant
+            # creates the constant
+            constant = Constant(int(self.current[1]))
             self.current = self.next_token()                    # reads next token
-            return constant                                     # end of recursion (returns the constant)
+            # end of recursion (returns the constant)
+            return constant
         elif self.current[0] == Token.PARL:                     # ( ?
             self.current = self.next_token()                    # reads next token
-            term1 = self.parse_build()                                 # recursion for ( expr )
+            # recursion for ( expr )
+            term1 = self.parse_build()
             if self.current[0] == Token.PARR:                   # ) ?
                 self.current = self.next_token()                # reads next token
                 return term1                                    # recursion end
             else:
-                if   self.current[0] == Token.ADD: bin_op = BinOp.ADD; # binary operator?
-                elif self.current[0] == Token.SUB: bin_op = BinOp.SUB;
-                elif self.current[0] == Token.MUL: bin_op = BinOp.MUL;
-                elif self.current[0] == Token.DIV: bin_op = BinOp.DIV;
+                if self.current[0] == Token.ADD:
+                    bin_op = BinOp.ADD  # binary operator?
+                elif self.current[0] == Token.SUB:
+                    bin_op = BinOp.SUB
+                elif self.current[0] == Token.MUL:
+                    bin_op = BinOp.MUL
+                elif self.current[0] == Token.DIV:
+                    bin_op = BinOp.DIV
                 else:
-                    raise ParsingException("Wrong operator or right parenthesis expected")
+                    raise ParsingException(
+                        "Wrong operator or right parenthesis expected")
                 self.current = self.next_token()                # reads next token
-                term2 = self.parse_build()                      # recursion for ( ... oper expr )
+                # recursion for ( ... oper expr )
+                term2 = self.parse_build()
                 if self.current[0] == Token.PARR:               # ) ?
                     bin_exp = BinaryExpression(term1, term2, bin_op)
                     self.current = self.next_token()            # reads next token
                     return bin_exp                              # recursion end
-                else: raise ParsingException("Right parenthesis expected")
-        else: raise ParsingException("Left parenthesis or constant expected")
+                else:
+                    raise ParsingException("Right parenthesis expected")
+        else:
+            raise ParsingException("Left parenthesis or constant expected")
 
 
 def main() -> None:
     """ Launcher """
 
     ctx = Context()
-    #expr = "4"
-    #expr = "(4+5)"
-    #expr = "(((4)))"
-    #expr = "((4)+(5))"
-    #expr = "(((3)+(5))*(4))"
+    # expr = "4"
+    # expr = "(4+5)"
+    # expr = "(((4)))"
+    # expr = "((4)+(5))"
+    # expr = "(((3)+(5))*(4))"
     expr = "(((8/9)+1)*(7*8))"
-    #expr = "((((3+5)-3)*(4+4))/(2*4))"
-    #expr = "((4+5+6))"                  # wrong not possible see the grammar
-    #expr = "(((3)+(5))*(4))"            # wrong parenthesis not well balanced
+    # expr = "((((3+5)-3)*(4+4))/(2*4))"
+    # expr = "((4+5+6))"                  # wrong not possible see the grammar
+    # expr = "(((3)+(5))*(4))"            # wrong parenthesis not well balanced
     parser_builder = ParserBuilder(expr)
 
     print("Expression:", expr)
 
     try:
         expression = parser_builder.parse_build()
-        if parser_builder.current[0] != Token.END: print("Error: Parenthesis not balanced")
+        if parser_builder.current[0] != Token.END:
+            print("Error: Parenthesis not balanced")
         print("Result of the evaluation: ", expression.eval(ctx))
     except ParsingException as error:
         print(error.message)
