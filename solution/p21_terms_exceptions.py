@@ -15,6 +15,7 @@ This grammar defines terms that can be evaluated using a context to bind values 
                  | UnaryOp Term 
 """
 
+
 def is_not_valid(name: str) -> bool:
     """
     A variable name must follow the rules:
@@ -66,7 +67,7 @@ class WrongNameVariableException(Exception):
 class NotBoundException(Exception):
     """Raised whenever a variable is not bound with a value in a context."""
 
-    def __init__(self, name: str, message = "The following variable name is not bound: ") -> None:
+    def __init__(self, name: str, message="The following variable name is not bound: ") -> None:
         self.name = name
         self.message = message
         super().__init__(self.message)
@@ -255,7 +256,7 @@ class UnaryExpression(Term):
         :return: the evaluated value of the binary expression
         """
         value_term = self.term.eval(context)
-        una_op_dict = { UnaOp.NEG: lambda t: (-1) * t }
+        una_op_dict = {UnaOp.NEG: lambda t: (-1) * t}
         operation = una_op_dict[self.una_op]
         return operation(value_term)
 
@@ -296,6 +297,7 @@ def main() -> None:
         print("Variable v3: ", v3.eval(ctx))
     except (WrongNameVariableException, NotBoundException) as e:
         print(e)
+
 
 if __name__ == "__main__":
     main()
