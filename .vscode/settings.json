@@ -1,6 +1,4 @@
 {
-    "cSpell.words": [
-        "dlst",
-        "nimsum"
-    ]
+  "cSpell.words": ["dlst", "nimsum"],
+  "python.analysis.typeCheckingMode": "basic"
 }
